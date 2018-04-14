@@ -21,19 +21,19 @@
 .link,
 .link:active,
 .link:visited {
-  color: rgba(255, 255, 255, .6);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .link:hover {
-  color: rgba(255, 255, 255, 1);
+  color: rgb(0, 0, 0);
 }
 
 .highlight {
   margin-right: 8px;
   margin-left: 8px;
   border-radius: 3px;
-  background: rgba(0, 0, 0, .15);
-  color: #fff;
+  background: rgba(0, 0, 0, 0.15);
+  color: rgb(0, 0, 0);
 }
 
 .highlight:hover {
@@ -41,5 +41,5 @@
 }
 
 .spacer {
-  color: rgba(255, 255, 255, .3);
+  color: rgba(0, 0, 0, 0.3);
 }
