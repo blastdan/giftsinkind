@@ -20,7 +20,7 @@ function Header() {
         <Navigation className={s.nav} />
         <Link className={s.brand} to="/">
           <img src={require('./GiftsInKind.png')} width="38" height="38" alt="React" />
-          <span className={s.brandTxt}>Your Company</span>
+          <span className={s.brandTxt}>Gifts In Kind</span>
         </Link>
         <div className={s.banner}>
           <h1 className={s.bannerTitle}>Gifts In Kind</h1>
