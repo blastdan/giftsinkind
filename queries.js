@@ -9,13 +9,53 @@ var pgp = require('pg-promise')(options);
 var connectionString = 'postgres://sywnmlad:Q_N9fca035mbGtckX8q6ZqXqtp_RE3vV@elmer.db.elephantsql.com:5432/sywnmlad';
 var db = pgp(connectionString);
 
+
+function getIndividualDonors(req, res, next){
+  db.any('select * from donorindividual inner join address on donorindividual.addressId = address.Id')
+    .then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Retrieved ALL donors'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+function createIndividualDonors(req, res, next){
+
+  db.one('insert into address(streetAddress, city, province, postalCode)' +
+  'values(${streetAddress}, ${city}, ${province}, ${postalCode}) RETURNING id', req.body.address)
+  .then(function (data) {
+    req.body.addressId = data.id;
+    db.none('insert into donorindividual(firstName, lastName, addressId, neighbourhood, email, phoneNumber)' +
+             'values(${firstName},${lastName}, ${addressId}, ${neighbourhood}, ${email}, ${phoneNumber})', req.body)
+          .then(function (data) {
+          res.status(200)
+            .json({
+              status: 'success',
+              data: data,
+              message: 'Added Donor'
+            });
+        })
+        .catch(function (err) {
+          return next(err);
+        });
+  })
+  .catch(function (err) {
+    return next(err);
+  });
+}
+
 function getAllPuppies(req, res, next) {
   db.any('select * from pups')
     .then(function (data) {
       res.status(200)
         .json({
           status: 'success',
-          data: data,
           message: 'Retrieved ALL puppies'
         });
     })
@@ -96,5 +136,7 @@ module.exports = {
   getSinglePuppy: getSinglePuppy,
   createPuppy: createPuppy,
   updatePuppy: updatePuppy,
-  removePuppy: removePuppy
+  removePuppy: removePuppy,
+  getIndividualDonors: getIndividualDonors,
+  createIndividualDonors: createIndividualDonors
 };
